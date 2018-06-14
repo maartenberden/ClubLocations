@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Football Club Locations</title>
+        <!--Link naar CSS stylesheet -->
+        <link rel="stylesheet" type="text/css" href="css/blog.css" />
+
+        <meta charset="utf-8" />
+        <!-- viewport voor responsive effect (chrome) -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body onload="initMap()">
+        <header>
+            <h1>Football Club Locations</h1>
+        </header>
+        <!-- Navigation -->
+        <nav>
+            <h3 class="navigatieTitel">Navigation</h3>
+            <ul>
+                <li><a class="selected" href="index.html">Map</a></li>
+                <li><a href="https://www.eventstravel.com">Events Travel</a></li>
+                <li class="blank">  </li>
+            </ul>
+        </nav>
+        <!-- Div voor de map -->
+        <div id="mapLocations">
+            <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+            <script>
+            //Initializeren clubdata
+            function initAddressData(){
+                var addresses = [
+                    "Avda. de Concha Espina 1, 28036; Madrid - España",
+                    "C. d'Aristides Maillol, 12, 08028 Barcelona, Spanje",
+                    "Sir Matt Busby Way, Stretford, Manchester M16 0RA, Verenigd Koninkrijk",
+                    "Werner-Heisenberg-Allee 25, 80939 München, Duitsland",
+                    "Ashton New Rd, Manchester M11 3FF, Verenigd Koninkrijk",
+                    "Fulham Rd, Fulham, London SW6 1HS, Verenigd Koninkrijk",
+                    "Hornsey Rd, London N7 7AJ, Verenigd Koninkrijk",
+                    "Anfield Rd, Liverpool L4 0TH, Verenigd Koninkrijk",
+                    "Corso Gaetano Scirea, 50, 10151 Torino TO, Italië",
+                    "Piazzale Angelo Moratti, 20151 Milano MI, Italië"
+                ];
+                return addresses;
+            }
+            function initClubNamesData(){
+                var clubNames = [
+                    "Real Madrid",
+                    "FC Barcelona",
+                    "Manchester United",
+                    "Bayern Munchen",
+                    "Manchester City",
+                    "Chelsea",
+                    "Arsenal",
+                    "Liverpool",
+                    "Juventus",
+                    "AC Milan"
+                ];
+                return clubNames;
+            }
+            //Map initializeren
+            function initMap(){
+                var map;
+                var addresses = initAddressData();
+                var clubNames = initClubNamesData();
+                var myOptions = {
+                    zoom: 5,
+                    center: new google.maps.LatLng(48.864716, 2.349014),
+                    mapTypeId: 'terrain'
+                };
+                map = new google.maps.Map($('#mapLocations')[0], myOptions);
+                //For loop om de markers toe te voegen. Ik heb 10 gebruikt en niet addresses.length aangezien ik een query limit melding kreeg.
+                for (var i = 0; i < 10; i++) {
+                    //* met ajax call kan je meer opties qua queries
+                    $.ajax({
+                        dataType: "json",
+                        url: 'http://maps.googleapis.com/maps/api/geocode/json',
+                        //* Hierin staan de GET parameters
+                        data :{
+                            address : addresses[i],
+                            sensor: false
+                        },
+                        //* synchronous is niet altijd aangeraden,
+                        //* maar omdat je in een loop zit en moet wachten tot de success is afgehandeld voordat je met de volgende doorgaat,
+                        //* moet het wel,
+                        //* synchronous stopt alles tot de request klaar is.
+                        async: false,
+                        //* Bij success van de query, word de functie hieronder aangeroepen
+                        success: function(data){
+                            var p = data.results[0].geometry.location
+                            var latlng = new google.maps.LatLng(p.lat, p.lng);
+                            //Aanmaken infowindow voor elke marker
+                            var infowindow = new google.maps.InfoWindow({
+                                content:
+                                '</div>'+
+                                '<h1 id="firstHeading" class="firstHeading">'+clubNames[i]+'</h1>'+
+                                '<p>'+addresses[i]+'</p>'+
+                                '</div>'
+                                ,
+                                size: new google.maps.Size(100, 25)
+                            });
+                            //Marker zelf aanmaken
+                            var marker = new google.maps.Marker({
+                                position: latlng,
+                                map: map,
+                                title: addresses[i]
+                            });
+                            //Klik event voor de marker
+                            google.maps.event.addListener(marker, 'click', function () {
+                                infowindow.open(map, marker);
+                            });
+                        }
+                    });
+                }
+            }
+            </script>
+            <script async defer
+                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBlPL6kp5DO8bIqOEgWRZtP4WbPSUWA9sY&callback=initMap">
+            </script>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,132 @@
+#mapLocations
+{
+	width: 80%;
+	height: 800px;
+	background-color: grey;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 4em;
+	margin-bottom: 4em;
+}
+
+html
+{
+	overflow-y: scroll;
+}
+
+html, body
+{
+	font-family: gotFont, sans-serif;
+	margin: 0;
+	padding: 0;
+	background-color: white;
+}
+
+header
+{
+	text-align: center;
+	background-color: #bfbfbf;
+	padding: 1em;
+	border-bottom: 5px solid #004d99;
+	font-size: large;
+	text-shadow: 3px 2px white;
+}
+
+h1
+{
+	text-align: center;
+}
+
+h3
+{
+	font-size: 1.2em;
+	margin: 0;
+	margin-left: 0.5em;
+	padding-top: 1em;
+}
+
+nav
+{
+	float: left;
+	width: 200px;
+	background-color: #d9d9d9;
+	height: 100%;
+}
+
+nav ul
+{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+
+}
+
+nav li
+{
+	margin: 0;
+	border-bottom: 2px solid #3385ff;
+}
+
+nav li:first-of-type
+{
+	border-top: 2px solid #3385ff;
+}
+
+nav a
+{
+	display: block;
+	padding: 1em;
+	text-decoration: none;
+}
+
+nav a:focus, nav a:hover
+{
+	background-color: #99ccff;
+}
+
+nav .selected
+{
+	background-color: white;
+}
+
+.blank
+{
+	padding-bottom: 800px;
+	border-bottom: 0px solid #3385ff;
+}
+
+
+@media (max-width: 1200px)
+{
+
+	nav, main
+	{
+		float: none;
+		width: 100%;
+	}
+
+	nav
+	{
+		position: relative;
+		margin-bottom: 2.5em;
+	}
+
+	.blank
+	{
+		padding-bottom: 0;
+		border-bottom: 0px solid #645039
+	}
+
+	#mapLocations
+	{
+		width: 80%;
+		height: 500px;
+		background-color: grey;
+		margin-left: auto;
+		margin-right: auto;
+		margin-top: 2em;
+		margin-bottom: 2em;
+	}
+}
+
+
